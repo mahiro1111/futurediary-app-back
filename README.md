@@ -1,24 +1,19 @@
-# README
+# futurediary-app-back
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## 初期設定
+①dockerを立ち上げる
 
-Things you may want to cover:
+②下記コマンドで実行環境を立ち上げます。
 
-* Ruby version
+```
+docker compose build
+docker compose up -d
+```
 
-* System dependencies
+③dbを作成します
+```
+docker compose exec web rake db:create
+```
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+④URLにアクセスし、立ち上がったことを確認する
+http://localhost:3000/
