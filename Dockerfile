@@ -68,17 +68,17 @@ FROM ruby:3.3.2
 RUN apt-get update -qq && apt-get install -y nodejs yarn default-mysql-client
 
 # 作業ディレクトリを設定
-WORKDIR /myapp
+WORKDIR /FeatureDiary-Back
 
 # GemfileとGemfile.lockをコピー
-COPY Gemfile /myapp/Gemfile
-COPY Gemfile.lock /myapp/Gemfile.lock
+COPY Gemfile /FeatureDiary-Back/Gemfile
+COPY Gemfile.lock /FeatureDiary-Back/Gemfile.lock
 
 # Bundlerを実行
 RUN bundle install
 
 # アプリケーションのコードをコピー
-COPY . /myapp
+COPY . /FeatureDiary-Back
 
 # ポート3000を公開
 EXPOSE 3000
