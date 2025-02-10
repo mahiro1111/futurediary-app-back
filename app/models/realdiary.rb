@@ -1,0 +1,2 @@
+class Realdiary < ApplicationRecord
+end

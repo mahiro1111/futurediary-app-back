@@ -1,0 +1,2 @@
+class Futurediary < ApplicationRecord
+end
