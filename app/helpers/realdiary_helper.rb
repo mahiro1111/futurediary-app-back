@@ -1,0 +1,2 @@
+module RealdiaryHelper
+end

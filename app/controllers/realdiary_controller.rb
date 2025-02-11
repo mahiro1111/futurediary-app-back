@@ -1,0 +1,2 @@
+class RealdiaryController < ApplicationController
+end
