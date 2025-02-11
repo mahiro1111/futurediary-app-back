@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_02_10_070005) do
+ActiveRecord::Schema[7.1].define(version: 2025_02_11_093205) do
   create_table "futurediaries", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.text "diary"
     t.datetime "created_at", null: false
@@ -22,6 +22,9 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_10_070005) do
     t.text "diary"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.date "date"
+    t.index ["user_id"], name: "index_realdiaries_on_user_id"
   end
 
   create_table "schedules", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -41,4 +44,5 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_10_070005) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "realdiaries", "users"
 end
