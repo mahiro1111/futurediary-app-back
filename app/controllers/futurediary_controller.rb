@@ -1,0 +1,2 @@
+class FuturediaryController < ApplicationController
+end
