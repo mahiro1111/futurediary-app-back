@@ -1,2 +1,0 @@
-class FuturediaryController < ApplicationController
-end
