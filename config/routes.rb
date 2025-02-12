@@ -7,6 +7,8 @@ Rails.application.routes.draw do
 
   #リアル日記のルート
   resources :realdiaries, only: [:index, :show, :create]
+  #未来日記のルート
+  resources :futurediaries, only: [:index, :show]
 
   # Defines the root path route ("/")
   # root "posts#index"
