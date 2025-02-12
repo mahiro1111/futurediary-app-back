@@ -1,4 +1,4 @@
-class RealdiaryController < ApplicationController
+class RealdiariesController < ApplicationController
 
 	before_action :set_real_diary, only: [:show]
 
