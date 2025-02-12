@@ -3,7 +3,7 @@ class FuturediariesController < ApplicationController
 
 	# 未来日記の一覧を表示→ GET /futurediaries
 	def index
-		@future_diaries = Futurediary.find(params[:id]).order(:date) # 日付の昇順（古い順）に並べる
+		@future_diaries = Futurediary.find(params[:user_id]).order(:date) # 日付の昇順（古い順）に並べる
 		render json: @future_diaries, only: [:title, :date] #タイトルと日付を返す
 	end
 
