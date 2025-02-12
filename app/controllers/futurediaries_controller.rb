@@ -1,4 +1,4 @@
-class FuturediaryController < ApplicationController
+class FuturediariesController < ApplicationController
 	before_action :set_future_diary, only: [:show]
 
 	# 未来日記の一覧を表示→ GET /futurediaries
