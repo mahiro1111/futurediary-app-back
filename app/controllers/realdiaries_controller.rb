@@ -14,7 +14,7 @@ class RealdiariesController < ApplicationController
 
 	# リアル日記の一覧を表示→ GET /realdiaries
 	def index
-		@real_diaries = Realdiary.order(:date) # 日付の昇順（古い順）に並べる
+		@real_diaries = Realdiary.find(params[:user_id]).order(:date) # 日付の昇順（古い順）に並べる
 		render json: @real_diaries, only: [:title, :date] #タイトルと日付を返す
 	end
 
