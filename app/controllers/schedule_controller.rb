@@ -15,6 +15,7 @@ class ScheduleController < ApplicationController
       # ユーザー情報をデータベースから取得
       user = User.find_by(email: payload['email'])
 
+      #ユーザー情報がなかったらエラーを返す
       if user.nil?
         render json: { error: 'User not found' }, status: :unauthorized
         return
@@ -51,6 +52,7 @@ class ScheduleController < ApplicationController
         }, status: :ok
       end
 
+    #エラー処理
     rescue Google::Apis::ClientError => e
       handle_google_api_error(e)
     rescue Google::Apis::AuthorizationError => e
