@@ -5,10 +5,17 @@ Rails.application.routes.draw do
   # Can be used by load balancers and uptime monitors to verify that the app is live.
   get "up" => "rails/health#show", as: :rails_health_check
 
+  #Googleカレンダーのイベントを取得
+  get 'schedule/events', to: 'schedule#events'
+
+  #token認証/user登録ルート
+  post 'google_oauth', to: 'oauth#google_oauth'
+
   #リアル日記のルート
   resources :realdiaries, only: [:index, :show, :create]
   #未来日記のルート
   resources :futurediaries, only: [:index, :show]
+
 
   # Defines the root path route ("/")
   # root "posts#index"
