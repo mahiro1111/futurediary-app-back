@@ -41,7 +41,10 @@ gem "tzinfo-data", platforms: %i[ windows jruby ]
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", require: false
 
+
 gem 'google-apis-calendar_v3', '~> 0.45.0'
+
+gem 'google-id-token', '~> 1.4', '>= 1.4.2'
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"

@@ -7,6 +7,10 @@ Rails.application.routes.draw do
 
   #Googleカレンダーのイベントを取得
   get 'schedule/events', to: 'schedule#events'
+
+  #token認証/user登録ルート
+  post 'google_oauth', to: 'oauth#google_oauth'
+
   #リアル日記のルート
   resources :realdiaries, only: [:index, :show, :create]
   #未来日記のルート
