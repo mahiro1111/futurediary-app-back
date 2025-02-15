@@ -1,3 +1,5 @@
+require 'dotenv/load'
+
 class OauthController < ApplicationController
 	require "google-id-token"
 
@@ -8,7 +10,7 @@ class OauthController < ApplicationController
 
 		begin
 			#GoogleのクライアントIDでトークンを検証
-			payload = validator.check(token, "MY_GOOGLE_CLIENT_ID")
+			payload = validator.check(token, ENV['MY_GOOGLE_CLIENT_ID'])
 
 			#ユーザー情報をDBに保存/更新
 			user = User.find_or_create_by(email: payload['email']) do |u|
