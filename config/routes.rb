@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
 
   #Googleカレンダーのイベントを取得
-  get 'schedule/events', to: 'schedule#events'
+  get 'schedules/events', to: 'schedules#events'
 
   #token認証/user登録ルート
   post 'google_oauth', to: 'oauth#google_oauth'
