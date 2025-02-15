@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_02_12_143401) do
+ActiveRecord::Schema[7.1].define(version: 2025_02_15_032627) do
   create_table "futurediaries", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.text "diary"
     t.datetime "created_at", null: false
@@ -33,11 +33,14 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_12_143401) do
 
   create_table "schedules", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.date "date"
-    t.datetime "dateTime"
     t.string "timeZone"
     t.string "summary"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "start_time"
+    t.datetime "end_time"
+    t.bigint "user_id", null: false
+    t.index ["user_id"], name: "index_schedules_on_user_id"
   end
 
   create_table "users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -50,4 +53,5 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_12_143401) do
 
   add_foreign_key "futurediaries", "users"
   add_foreign_key "realdiaries", "users"
+  add_foreign_key "schedules", "users"
 end
