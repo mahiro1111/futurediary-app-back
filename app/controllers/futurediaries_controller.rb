@@ -28,61 +28,58 @@ class FuturediariesController < ApplicationController
     # 予定を `, ` で連結
     schedule_text = schedules.join(", ")
 
-  # 日本語の予定を英語に翻訳
-  translated_schedule = translate(schedule_text)
+		# 日本語の予定を英語に翻訳
+		translated_schedule = translate(schedule_text)
 
-  # OpenAIで未来日記を作成
-  client = OpenAI::Client.new(access_token: ENV['OPENAI_API_KEY'])
+		# OpenAIで未来日記を作成
+		client = OpenAI::Client.new(access_token: ENV['OPENAI_API_KEY'])
 
-  response = client.chat(
-    parameters: {
-      model: "gpt-3.5-turbo",
-      messages: [{ role: "system", content: "以下の予定を元に未来日記を書いてください。" }, { role: "user", content: translated_schedule }],
-      temperature: 0.7,
-      max_tokens: 300
-    }
-  )
+		response = client.chat(
+			parameters: {
+				model: "gpt-3.5-turbo",
+				messages: [{ role: "system", content: "以下の予定を元に未来日記を書いてください。" }, { role: "user", content: translated_schedule }],
+				temperature: 0.7,
+				max_tokens: 300
+			}
+		)
 
-  diary_english = response.dig("choices", 0, "message", "content")
+		diary_english = response.dig("choices", 0, "message", "content")
 
-  # 英語の未来日記を日本語に翻訳
-  diary_japanese = translate(diary_english)
+		# 英語の未来日記を日本語に翻訳
+		diary_japanese = translate(diary_english)
 
-  # Futurediaryに保存
-  future_diary = Futurediary.create(
-    title: schedule_text,
-    diary: diary_japanese,
-    date: Date.today,
-    user_id: params[:user_id]
-  )
+		# Futurediaryに保存
+		future_diary = Futurediary.create(
+			title: schedule_text,
+			diary: diary_japanese,
+			date: Date.today,
+			user_id: params[:user_id]
+		)
 
-  render json: future_diary
-end
+		render json: future_diary
+	end
 
-private
+	private
 
-#Faraday で Google Apps Script を叩く
-def translate(text)
-  original_url = ''
-  url_with_query = "#{original_url}?text=#{text}&source=ja&target=en"
+	#Faraday で Google Apps Script を叩く
+	def translate(text)
+		original_url = ''
+		url_with_query = "#{original_url}?text=#{text}&source=ja&target=en"
 
-  conn = Faraday.new(url: url_with_query)
-  response = conn.get
+		conn = Faraday.new(url: url_with_query)
+		response = conn.get
 
-  if response.status == 302
-    redirect_url = response.headers['Location']
-    conn = Faraday.new
-    response = conn.get(redirect_url)
-    if response.success?
-      JSON.parse(response.body)['text']
-    else
-      ""
-    end
-  else
-    ""
-  end
-end
-end
-
-
+		if response.status == 302
+			redirect_url = response.headers['Location']
+			conn = Faraday.new
+			response = conn.get(redirect_url)
+			if response.success?
+				JSON.parse(response.body)['text']
+			else
+				""
+			end
+		else
+			""
+		end
+	end
 end
