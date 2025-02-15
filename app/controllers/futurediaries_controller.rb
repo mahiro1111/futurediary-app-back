@@ -1,7 +1,7 @@
 class FuturediariesController < ApplicationController
 	before_action :set_future_diary, only: [:show]
 
-	# 未来日記の一覧を表示 → GET /futurediariesuser_id=xxx
+	# 未来日記の一覧を表示 → GET /futurediaries
   def index
     @future_diaries = Futurediary.where(user_id: params[:user_id]).order(:date) # 日付の昇順
     render json: @future_diaries, only: [:diary, :date] # タイトルと日付のみ返す
@@ -81,5 +81,9 @@ class FuturediariesController < ApplicationController
 		else
 			""
 		end
+	end
+
+	def set_future_diary
+		@future_diary = Futurediary.find(params[:id])
 	end
 end
