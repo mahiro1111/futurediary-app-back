@@ -63,7 +63,7 @@ class FuturediariesController < ApplicationController
 
 	#Faraday で Google Apps Script を叩く
 	def translate(text)
-		original_url = ''
+		original_url = ENV['GOOGLE_APPS_SCRIPT_URL']
 		url_with_query = "#{original_url}?text=#{text}&source=ja&target=en"
 
 		conn = Faraday.new(url: url_with_query)
