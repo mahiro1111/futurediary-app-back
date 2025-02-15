@@ -1,31 +1,35 @@
 class FuturediariesController < ApplicationController
 	before_action :set_future_diary, only: [:show]
 
-	# 未来日記の一覧を表示→ GET /futurediaries
-	def index
-		@future_diaries = Futurediary.find(params[:user_id]).order(:date) # 日付の昇順（古い順）に並べる
-		render json: @future_diaries, only: [:title, :date] #タイトルと日付を返す
-	end
+	# 未来日記の一覧を表示 → GET /futurediariesuser_id=xxx
+  def index
+    @future_diaries = Futurediary.where(user_id: params[:user_id]).order(:date) # 日付の昇順
+    render json: @future_diaries, only: [:diary, :date] # タイトルと日付のみ返す
+  end
 
-	#一覧から個別の日記を表示→ GET /futurediaries/:id
-	def show
-		render json: @future_diary #詳細情報を返す→フロントで:diaryを表示してもらう
-	end
+  # 個別の日記を表示 → GET /futurediaries/:id
+  def show
+    render json: @future_diary # 詳細情報を返す
+  end
 
-	private #controller内部でのみ使用するアクション
+  # 未来日記の作成 → POST /futurediaries
+  def create
+    user_id = params[:user_id]
+    today = Date.today
 
-	def set_future_diary
-		@future_diary = Futurediary.find(params[:id])
-	end
+    #Scheduleモデルから当日の予定を取得
+    schedules = Schedule.where(user_id: user_id, date: today).pluck(:summary) # summary だけ取得
 
+    if schedules.empty?
+      render json: { error: "予定が見つかりません" }, status: :not_found
+      return
+    end
 
-#ここから追加分
-def create
-  # Googleカレンダーから当日の予定を取得
-  schedule = get_google_calendar_schedule(params[:user_id])
+    # 予定を `, ` で連結
+    schedule_text = schedules.join(", ")
 
   # 日本語の予定を英語に翻訳
-  translated_schedule = translate(schedule)
+  translated_schedule = translate(schedule_text)
 
   # OpenAIで未来日記を作成
   client = OpenAI::Client.new(access_token: ENV['OPENAI_API_KEY'])
@@ -46,7 +50,7 @@ def create
 
   # Futurediaryに保存
   future_diary = Futurediary.create(
-    title: schedule,
+    title: schedule_text,
     diary: diary_japanese,
     date: Date.today,
     user_id: params[:user_id]
