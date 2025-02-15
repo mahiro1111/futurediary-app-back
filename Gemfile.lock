@@ -105,6 +105,7 @@ GEM
       irb (~> 1.10)
       reline (>= 0.3.8)
     declarative (0.0.20)
+    dotenv (3.1.7)
     drb (2.2.1)
     erubi (1.13.1)
     faraday (2.12.2)
@@ -307,6 +308,7 @@ DEPENDENCIES
   bootsnap
   capybara
   debug
+  dotenv
   google-apis-calendar_v3 (~> 0.45.0)
   google-id-token (~> 1.4, >= 1.4.2)
   importmap-rails
